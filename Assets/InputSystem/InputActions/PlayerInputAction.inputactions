@@ -1,0 +1,175 @@
+{
+    "name": "PlayerInputAction",
+    "maps": [
+        {
+            "name": "WASD",
+            "id": "b133e95e-838e-458a-a98e-2e2f5c6a4008",
+            "actions": [
+                {
+                    "name": "Up/Down/Left/Right",
+                    "type": "Value",
+                    "id": "d8b44c93-53bd-4f2c-92f5-51ac5ffe23e9",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "4bf51d3d-1d2b-4085-98af-5078e959d359",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "1a39e0e1-5172-41b8-924d-75bb9c5e7118",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Throw",
+                    "type": "Value",
+                    "id": "79830d6c-de37-43c1-a6b6-9c5b7368ea88",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "StopCamera",
+                    "type": "Button",
+                    "id": "e4827c87-580c-47f3-9a81-8a2980874821",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "2D Vector",
+                    "id": "f2e63163-0ded-48a3-94ec-8817b510706d",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up/Down/Left/Right",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "99d4316f-c2d0-4ec8-abbc-e748a58d386b",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up/Down/Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "8b662fd6-f07a-4e04-b255-31532f020d1e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up/Down/Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "f707939e-9897-4e41-9f3b-657b37409356",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up/Down/Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "c5816de1-ed25-4e76-b0a3-dfede30a6d27",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up/Down/Left/Right",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d301df54-9960-4dbe-ac63-6e5e1a7bfb3b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "WASD",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "62fa10d5-6180-492a-9890-d7a4ea1dba53",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "WASD",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2c8e3f8d-1260-495c-aebb-18be1c981509",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "WASD",
+                    "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "696b81ce-f9fe-4189-bf84-284bf5af2672",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "WASD",
+                    "action": "StopCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "WASD",
+            "bindingGroup": "WASD",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
