@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,6 +38,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float bufferJumpDistance;
     private bool bufferedJump;
+    [SerializeField] private float slidingDeceleration;
+    [SerializeField] private float wallJumpForceMultiplierY;
+    [SerializeField] private float wallJumpVelocityX;
+    [SerializeField] private float halfwayDuration;
+    private bool isWallJumping;
 
     void Awake()
     {
@@ -54,26 +61,56 @@ public class PlayerController : MonoBehaviour
     {
         jumpInput = context.ReadValue<float>();
 
-        if (context.started)
+        if (!context.started)
+            return;
+
+        if (IsWallSliding())
         {
-            if (CheckIfGrounded())
-                Jump();
-            else if (Physics2D.OverlapCircle(foot.position, bufferJumpDistance, groundMask))
-                bufferedJump = true;
+            StartCoroutine(WallJumpCoroutine());
+        }
+        else if (CheckIfGrounded() || coyoteTimeCounter > 0)
+        {
+            ResetVelocityYToZero();
+            Jump();
+        }
+        else if (IsPlayerCloseToGround())
+        {
+            bufferedJump = true;
         }
     }
 
+    private IEnumerator WallJumpCoroutine()
+    {
+        isWallJumping = true;
+        playerRb.gravityScale = 1;
+        float initialDirection = isFacingRight ? -1 : 1;
+
+        playerRb.velocity = Vector2.zero;
+
+        float velocityX = playerRb.velocity.x + wallJumpVelocityX * initialDirection;
+        playerRb.velocity = new Vector2(velocityX, jumpForce * wallJumpForceMultiplierY);
+
+        yield return new WaitForSeconds(halfwayDuration);
+
+        if (jumpInput > 0)
+        {
+            playerRb.velocity = new Vector2(-velocityX, playerRb.velocity.y);
+        }
+        isWallJumping = false;
+    }
+
+    private bool CheckIfGrounded() => Physics2D.Raycast(foot.position, Vector2.down, raycastDistance, groundMask);
+
+    private void ResetVelocityYToZero()
+    {
+        playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
+    }
+
+    private bool IsPlayerCloseToGround() => Physics2D.OverlapCircle(foot.position, bufferJumpDistance, groundMask);
+
     private void Jump()
     {
-        Debug.Log($"BufferedJump: {bufferedJump}");
-        if (bufferedJump)
-        {
-            playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
-            playerRb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
-        }
-        else
-            playerRb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
-
+        playerRb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
         bufferedJump = false;
     }
 
@@ -97,42 +134,22 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        FlipPlayer();
+
         BufferedJump();
 
-        RealisticJumpGravity();
+        CoyoteJump();
 
-        // BufferedJump();
-
-        // CoyoteJump();
-
-        // SlideWall();
-        // WallJump();
-
-        // if (!isWallJumping)
-        //     FlipPlayer();
-
-        // KeepPlayerInBounds();
+        KeepPlayerInBounds();
     }
 
-    private void FixedUpdate()
+    public void BufferedJump()
     {
-        MovePlayer();
+        if (bufferedJump && CheckIfGrounded())
+            Jump();
     }
 
-    private void MovePlayer()
-    {
-        transform.Translate(speed * Time.deltaTime * movementInput.x * Vector2.right);
-    }
 
-    private void RealisticJumpGravity()
-    {
-        if (playerRb.velocity.y < 0)
-            playerRb.gravityScale = fallingGravityScale;
-        else if (playerRb.velocity.y > 0 && jumpInput == 0)
-            playerRb.gravityScale = lowJumpMultiplier;
-        else
-            playerRb.gravityScale = jumpingGravityScale;
-    }
 
     private void CoyoteJump()
     {
@@ -142,34 +159,53 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
     }
 
-    public void BufferedJump()
+    private void FixedUpdate()
     {
-        if (bufferedJump && CheckIfGrounded())
-            Jump();
+        MovePlayer();
+
+        SlideWall();
+
+        RealisticJumpGravity();
     }
+
+    private void MovePlayer()
+    {
+        transform.Translate(speed * Time.deltaTime * movementInput.x * Vector2.right);
+    }
+
+    private void SlideWall()
+    {
+        if (IsWallSliding())
+            playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y / slidingDeceleration);
+    }
+
+    private void RealisticJumpGravity()
+    {
+        if (IsWallSliding() || isWallJumping)
+            return;
+
+        if (playerRb.velocity.y < 0)
+            playerRb.gravityScale = fallingGravityScale;
+        else if (playerRb.velocity.y > 0 && jumpInput == 0)
+            playerRb.gravityScale = lowJumpMultiplier;
+        else
+            playerRb.gravityScale = jumpingGravityScale;
+    }
+
+    private bool IsWallSliding() => movementInput.x != 0 && IsTouchingWall() && !CheckIfGrounded();
+
+    private bool IsTouchingWall() => Physics2D.OverlapCircle(transform.position, 0.5f, wallMask);
 
     private void FlipPlayer()
     {
-        if ((isFacingRight && movementInput.x < 0) || (!isFacingRight && movementInput.x > 0))
-        {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x = -localScale.x;
-            transform.localScale = localScale;
-        }
+        if ((!isFacingRight || movementInput.x >= 0) && (isFacingRight || movementInput.x <= 0))
+            return;
+
+        isFacingRight = !isFacingRight;
+        Vector3 localScale = transform.localScale;
+        localScale.x = -localScale.x;
+        transform.localScale = localScale;
     }
-
-    // private void MovePlayer()
-    // {
-    //     if (isSliding)
-    //         transform.Translate(movementInput.x * speed * Time.deltaTime * Vector2.right);
-    //     else
-    //         playerRb.velocity = new Vector2(movementInput.x * speed, Mathf.Clamp(playerRb.velocity.y, -10f, float.MaxValue));
-    // }
-
-    private bool IsWalled() => Physics2D.OverlapCircle(hand.position, 0.2f, wallMask);
-
-    private bool CheckIfGrounded() => Physics2D.Raycast(foot.position, Vector2.down, raycastDistance, groundMask);
 
     private void KeepPlayerInBounds()
     {
