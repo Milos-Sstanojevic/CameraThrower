@@ -640,14 +640,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 4
-  throwingForce: 1.5
+  jumpForce: 15
   foot: {fileID: 4417078901128066004}
   head: {fileID: 5873166036086476203}
   hand: {fileID: 38327708699305291}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 256
   boundsMask:
     serializedVersion: 2
     m_Bits: 64
@@ -657,8 +659,16 @@ MonoBehaviour:
   topBound: {fileID: 0}
   bottomBound: {fileID: 0}
   throwingCamera: {fileID: 0}
-  wallSlidingSpeed: 1
-  wallJumpDuration: 0.2
-  wallJumpForce: {x: 2, y: 3}
+  wallSlidingSpeed: 2
+  wallJumpDuration: 0.1
+  wallJumpForce: {x: 1, y: 2}
+  wallJumpingTime: 0.1
   fallMultiplier: 1.5
-  lowJumpMultiplier: 2
+  lowJumpMultiplier: 10
+  fallingGravityScale: 7
+  jumpingGravityScale: 3
+  coyoteTime: 0.1
+  jumpBufferTime: 0.2
+  slideAcceleration: 10
+  bufferJumpDistance: 4
+  bufferMultiplyer: 2

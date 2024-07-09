@@ -124,6 +124,7 @@ public class ThrowingCameraController : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         transform.SetParent(boundsAndCameraHolder);
         transform.localScale = originalScale;
+        ClearTrajectory(hand);
     }
 
     public bool IsCameraPickedUp() => isCameraPickedUp;
