@@ -898,6 +898,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2051640380}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+      propertyPath: slidingSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: throwingCamera
       value: 
       objectReference: {fileID: 1987155561605300940}
@@ -911,7 +915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: wallJumpVelocityX
-      value: 15
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: bufferJumpDistance
@@ -927,15 +931,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: wallJumpForceMultiplierY
-      value: 8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.14
+      value: 11.05
       objectReference: {fileID: 0}
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1
+      value: 0.88
       objectReference: {fileID: 0}
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalPosition.z

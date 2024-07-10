@@ -38,11 +38,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float bufferJumpDistance;
     private bool bufferedJump;
-    [SerializeField] private float slidingDeceleration;
+    [SerializeField] private float slidingSpeed;
     [SerializeField] private float wallJumpForceMultiplierY;
     [SerializeField] private float wallJumpVelocityX;
     [SerializeField] private float halfwayDuration;
     private bool isWallJumping;
+    [SerializeField] private float wallSlideGravityScale;
+    [SerializeField] private float wallJumpGravityScale;
 
     void Awake()
     {
@@ -82,12 +84,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator WallJumpCoroutine()
     {
         isWallJumping = true;
-        playerRb.gravityScale = 1;
+        playerRb.gravityScale = wallJumpGravityScale;
         float initialDirection = isFacingRight ? -1 : 1;
 
-        playerRb.velocity = Vector2.zero;
-
-        float velocityX = playerRb.velocity.x + wallJumpVelocityX * initialDirection;
+        float velocityX = wallJumpVelocityX * initialDirection;
         playerRb.velocity = new Vector2(velocityX, jumpForce * wallJumpForceMultiplierY);
 
         yield return new WaitForSeconds(halfwayDuration);
@@ -175,8 +175,11 @@ public class PlayerController : MonoBehaviour
 
     private void SlideWall()
     {
-        if (IsWallSliding())
-            playerRb.velocity = new Vector2(playerRb.velocity.x, playerRb.velocity.y / slidingDeceleration);
+        if (IsWallSliding() && !isWallJumping)
+        {
+            playerRb.gravityScale = wallSlideGravityScale;
+            playerRb.velocity = new Vector2(playerRb.velocity.x, slidingSpeed);
+        }
     }
 
     private void RealisticJumpGravity()
