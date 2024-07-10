@@ -3,46 +3,51 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class DashingObject : MonoBehaviour
+public class BashingObject : MonoBehaviour
 {
     [SerializeField] private float lerpTime;
-    [SerializeField] private float dashForce;
-    [SerializeField] private float timeToDash;
-    [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private LayerMask dasherLayer;
+    [SerializeField] private float bashForce;
+    [SerializeField] private float timeToBash;
+    [SerializeField] private float postBashGravityScale;
+    [SerializeField] private float postBashControlTime;
+
     private PlayerController player;
     private Rigidbody2D playerRb;
-    private float startingGravity;
-    private bool dashPressed;
-    private bool collidedWithDasher;
-    private bool canDash;
-    private bool canTimeStop = true;
+    private bool bashPressed;
+    private bool canBash;
 
     public void OnDashInput(InputAction.CallbackContext context)
     {
-        if (context.started && canDash)
+        if (context.started && canBash)
         {
-            dashPressed = true;
+            bashPressed = true;
             Dash();
         }
     }
 
     private void Dash()
     {
+        Vector2 bashTarget = Vector2.zero;
+
+        StopCoroutine(DashCoroutine(bashTarget));
         StopCoroutine(DashWindowCoroutine());
-        Time.timeScale = 1;
+
+        Time.timeScale = Constants.StartTime;
         player.transform.position = transform.position;
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 dashDirection = (mousePosition - (Vector2)player.transform.position).normalized;
-        Vector2 dashTarget = (Vector2)player.transform.position + dashDirection * dashForce;
+        Vector2 bashDirection = (mousePosition - (Vector2)player.transform.position).normalized;
+        bashTarget = (Vector2)player.transform.position + bashDirection * bashForce;
 
-        StartCoroutine(DashCoroutine(dashTarget));
+        StartCoroutine(DashCoroutine(bashTarget));
         ResetDashState();
     }
 
     private IEnumerator DashCoroutine(Vector2 targetPosition)
     {
+        player.EnableMovementAndJumping();
+
+        playerRb.gravityScale = postBashGravityScale;
         float elapsedTime = 0;
         Vector2 startingPosition = player.transform.position;
 
@@ -54,43 +59,42 @@ public class DashingObject : MonoBehaviour
         }
 
         player.transform.position = targetPosition;
-        playerRb.gravityScale = 3;
+
+        yield return new WaitForSeconds(postBashControlTime);
+
         player.EnableMovementJumpingAndGravityChanges();
     }
 
     private void ResetDashState()
     {
-        canDash = false;
-        dashPressed = false;
+        canBash = false;
+        bashPressed = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerController>() != null)
-        {
-            player = collision.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                Time.timeScale = 0;
-                playerRb = player.GetComponent<Rigidbody2D>();
-                playerRb.velocity = Vector2.zero;
-                player.DisableMovementJumpingAndGravityChanges();
-                canDash = true;
-                StartCoroutine(DashWindowCoroutine());
-            }
-        }
+        if (collision.GetComponent<PlayerController>() == null)
+            return;
+
+        if ((player = collision.GetComponent<PlayerController>()) == null)
+            return;
+
+        Time.timeScale = Constants.StopTime;
+        playerRb = player.GetComponent<Rigidbody2D>();
+        playerRb.velocity = Vector2.zero;
+        player.DisableMovementJumpingAndGravityChanges();
+        canBash = true;
+        StartCoroutine(DashWindowCoroutine());
     }
 
     private IEnumerator DashWindowCoroutine()
     {
-        yield return new WaitForSecondsRealtime(timeToDash);
-        if (!dashPressed)
+        yield return new WaitForSecondsRealtime(timeToBash);
+        if (!bashPressed)
         {
-            Time.timeScale = 1;
+            Time.timeScale = Constants.StartTime;
             player.EnableMovementJumpingAndGravityChanges();
-            ResetDashState();
         }
+        ResetDashState();
     }
-
-
 }

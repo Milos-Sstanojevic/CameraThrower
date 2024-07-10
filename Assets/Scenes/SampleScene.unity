@@ -848,15 +848,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad83dbf09804c7f44bd505dfe6953587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpTime: 0
-  dashForce: 20
-  timeToDash: 2
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  dasherLayer:
-    serializedVersion: 2
-    m_Bits: 512
+  lerpTime: 0.2
+  bashForce: 0
+  timeToBash: 0
+  postBashGravityScale: 0
+  postBashControlTime: 0
 --- !u!58 &1600977158
 CircleCollider2D:
   m_ObjectHideFlags: 0

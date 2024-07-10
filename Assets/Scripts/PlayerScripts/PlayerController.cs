@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    private const int JumpLeft = -1;
+    private const int JumpRight = 1;
     private static Vector2 SizeOfOverlapCollider = new Vector2(0.25f, 0.25f);
     private const float AngleOfOverlapCollider = 0;
     private const float DistanceFromHorizontalBounds = 0.5f;
@@ -86,7 +88,7 @@ public class PlayerController : MonoBehaviour
     {
         isWallJumping = true;
         playerRb.gravityScale = wallJumpGravityScale;
-        float initialDirection = isFacingRight ? -1 : 1;
+        float initialDirection = isFacingRight ? JumpLeft : JumpRight;
 
         float velocityX = wallJumpVelocityX * initialDirection;
         playerRb.velocity = new Vector2(velocityX, jumpForce * wallJumpForceMultiplierY);
@@ -251,6 +253,12 @@ public class PlayerController : MonoBehaviour
         movementDisabled = false;
         jumpingDisabled = false;
         stopGravity = false;
+    }
+
+    public void EnableMovementAndJumping()
+    {
+        movementDisabled = false;
+        jumpingDisabled = false;
     }
 
 }
