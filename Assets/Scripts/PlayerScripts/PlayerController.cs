@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +43,9 @@ public class PlayerController : MonoBehaviour
     private bool isWallJumping;
     [SerializeField] private float wallSlideGravityScale;
     [SerializeField] private float wallJumpGravityScale;
+    private bool movementDisabled;
+    private bool jumpingDisabled;
+    private bool stopGravity;
 
     void Awake()
     {
@@ -110,6 +111,9 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+        if (jumpingDisabled)
+            return;
+
         playerRb.AddForce(jumpForce * Vector2.up, ForceMode2D.Impulse);
         bufferedJump = false;
     }
@@ -161,7 +165,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!movementDisabled)
+            MovePlayer();
 
         SlideWall();
 
@@ -184,7 +189,7 @@ public class PlayerController : MonoBehaviour
 
     private void RealisticJumpGravity()
     {
-        if (IsWallSliding() || isWallJumping)
+        if (IsWallSliding() || isWallJumping || stopGravity)
             return;
 
         if (playerRb.velocity.y < 0)
@@ -233,5 +238,19 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector2(transform.position.x, topBound.position.y - DistanceFromVerticalBounds);
     }
 
+
+    public void DisableMovementJumpingAndGravityChanges()
+    {
+        movementDisabled = true;
+        jumpingDisabled = true;
+        stopGravity = true;
+    }
+
+    public void EnableMovementJumpingAndGravityChanges()
+    {
+        movementDisabled = false;
+        jumpingDisabled = false;
+        stopGravity = false;
+    }
 
 }
