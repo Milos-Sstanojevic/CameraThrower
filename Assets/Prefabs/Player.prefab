@@ -378,6 +378,11 @@ GameObject:
   - component: {fileID: 6883692032468105594}
   - component: {fileID: 8944719626286424856}
   - component: {fileID: 5125700826168872108}
+  - component: {fileID: 845095576074997231}
+  - component: {fileID: 7967666768348677006}
+  - component: {fileID: 4681144977129120330}
+  - component: {fileID: 8592272592679602428}
+  - component: {fileID: 5033450681062683322}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -480,7 +485,7 @@ Rigidbody2D:
     m_Bits: 128
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &6883692032468105594
 CapsuleCollider2D:
@@ -544,9 +549,9 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5125700826168872108}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnMoveLeftOrRigth
+      - m_Target: {fileID: 845095576074997231}
+        m_TargetAssemblyTypeName: PlayerMovementController, Assembly-CSharp
+        m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -560,8 +565,8 @@ MonoBehaviour:
     m_ActionName: WASD/Left/Right[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5125700826168872108}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 7967666768348677006}
+        m_TargetAssemblyTypeName: PlayerJumpController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -576,8 +581,8 @@ MonoBehaviour:
     m_ActionName: WASD/Jump[/Keyboard/w]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5125700826168872108}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 4681144977129120330}
+        m_TargetAssemblyTypeName: PlayerInteractionController, Assembly-CSharp
         m_MethodName: OnInteraction
         m_Mode: 0
         m_Arguments:
@@ -622,6 +627,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e4827c87-580c-47f3-9a81-8a2980874821
     m_ActionName: WASD/StopCamera[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DashingObject, Assembly-CSharp
+        m_MethodName: OnDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1be5eac4-6cb8-474a-abe5-56532ac276a7
+    m_ActionName: WASD/Dash[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: WASD
@@ -639,36 +660,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f3a5420ef641c4bb3e9f8d53a5aecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  maximumJumpVelocity: 0
+--- !u!114 &845095576074997231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924640510005295637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1dd23776d2c9734d90f95571804047e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 8
+--- !u!114 &7967666768348677006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924640510005295637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4a18c8a50e83f4f8b013037ed4afc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   jumpForce: 15
   foot: {fileID: 4417078901128066004}
-  head: {fileID: 5873166036086476203}
-  hand: {fileID: 38327708699305291}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
   wallMask:
     serializedVersion: 2
     m_Bits: 256
+  raycastDistance: 0.25
+  coyoteTime: 0.1
+  bufferJumpDistance: 1
+  wallJumpForceMultiplierY: 2
+  wallJumpVelocityX: 12
+  halfwayDuration: 0.2
+  wallJumpGravityScale: 1
+  slidingSpeed: 0.2
+  wallSlideGravityScale: 7
+--- !u!114 &4681144977129120330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924640510005295637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12787419119b3e94781fd321604bc02a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwingCamera: {fileID: 0}
+  sizeOfOverlapCollider: {x: 0.25, y: 0.25}
+  angleOfOverlapCollider: 0
+--- !u!114 &8592272592679602428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924640510005295637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc17077700507f41a211f743b1284a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowJumpMultiplier: 10
+  fallingGravityScale: 7
+  jumpingGravityScale: 3
+  wallSlideGravityScale: 7
+  wallJumpGravityScale: 1
+--- !u!114 &5033450681062683322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924640510005295637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe7fd44ff924ec449137e096d1a36b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 5873166036086476203}
+  foot: {fileID: 4417078901128066004}
+  raycastDistance: 0.5
   boundsMask:
     serializedVersion: 2
     m_Bits: 64
-  raycastDistance: 0.25
   leftBound: {fileID: 0}
   rightBound: {fileID: 0}
   topBound: {fileID: 0}
   bottomBound: {fileID: 0}
-  throwingCamera: {fileID: 0}
-  wallSlidingSpeed: 2
-  wallJumpDuration: 0.1
-  wallJumpForce: {x: 1, y: 2}
-  wallJumpingTime: 0.1
-  fallMultiplier: 1.5
-  lowJumpMultiplier: 10
-  fallingGravityScale: 7
-  jumpingGravityScale: 3
-  coyoteTime: 0.1
-  jumpBufferTime: 0.2
-  slideAcceleration: 10
-  bufferJumpDistance: 4
-  bufferMultiplyer: 2
+  distanceFromHorizontalBounds: 0.5
+  distanceFromVerticalBounds: 1
+  sizeOfOverlapCollider: {x: 0.25, y: 0.25}
+  angleOfOverlapCollider: 0

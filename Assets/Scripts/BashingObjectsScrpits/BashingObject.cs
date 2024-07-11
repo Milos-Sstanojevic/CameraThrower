@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,8 +28,8 @@ public class BashingObject : MonoBehaviour
     {
         Vector2 bashTarget = Vector2.zero;
 
-        StopCoroutine(DashCoroutine(bashTarget));
-        StopCoroutine(DashWindowCoroutine());
+        StopCoroutine(BashCoroutine(bashTarget));
+        StopCoroutine(BashWindowCoroutine());
 
         Time.timeScale = Constants.StartTime;
         player.transform.position = transform.position;
@@ -39,13 +38,14 @@ public class BashingObject : MonoBehaviour
         Vector2 bashDirection = (mousePosition - (Vector2)player.transform.position).normalized;
         bashTarget = (Vector2)player.transform.position + bashDirection * bashForce;
 
-        StartCoroutine(DashCoroutine(bashTarget));
-        ResetDashState();
+        StartCoroutine(BashCoroutine(bashTarget));
+        ResetBashState();
     }
 
-    private IEnumerator DashCoroutine(Vector2 targetPosition)
+    private IEnumerator BashCoroutine(Vector2 targetPosition)
     {
-        player.EnableMovementAndJumping();
+        player.GetComponent<PlayerMovementController>().EnableMovement();
+        player.GetComponent<PlayerJumpController>().EnableJumping();
 
         playerRb.gravityScale = postBashGravityScale;
         float elapsedTime = 0;
@@ -62,10 +62,10 @@ public class BashingObject : MonoBehaviour
 
         yield return new WaitForSeconds(postBashControlTime);
 
-        player.EnableMovementJumpingAndGravityChanges();
+        player.GetComponent<PlayerGravityController>().StartGravity();
     }
 
-    private void ResetDashState()
+    private void ResetBashState()
     {
         canBash = false;
         bashPressed = false;
@@ -73,28 +73,42 @@ public class BashingObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerController>() == null)
-            return;
-
-        if ((player = collision.GetComponent<PlayerController>()) == null)
+        if (collision.GetComponent<PlayerController>() == null || (player = collision.GetComponent<PlayerController>()) == null)
             return;
 
         Time.timeScale = Constants.StopTime;
         playerRb = player.GetComponent<Rigidbody2D>();
         playerRb.velocity = Vector2.zero;
-        player.DisableMovementJumpingAndGravityChanges();
+
+        DisablePlayerMovement();
+
         canBash = true;
-        StartCoroutine(DashWindowCoroutine());
+
+        StartCoroutine(BashWindowCoroutine());
     }
 
-    private IEnumerator DashWindowCoroutine()
+    private void DisablePlayerMovement()
+    {
+        player.GetComponent<PlayerMovementController>().DisableMovement();
+        player.GetComponent<PlayerJumpController>().DisableJumping();
+        player.GetComponent<PlayerGravityController>().StopGravity();
+    }
+
+    private IEnumerator BashWindowCoroutine()
     {
         yield return new WaitForSecondsRealtime(timeToBash);
-        if (!bashPressed)
-        {
-            Time.timeScale = Constants.StartTime;
-            player.EnableMovementJumpingAndGravityChanges();
-        }
-        ResetDashState();
+        ResetBashState();
+        if (bashPressed)            //??????????????????
+            yield return null;
+
+        Time.timeScale = Constants.StartTime;
+        EnablePlayerMovement();
+    }
+
+    private void EnablePlayerMovement()
+    {
+        player.GetComponent<PlayerMovementController>().EnableMovement();
+        player.GetComponent<PlayerJumpController>().EnableJumping();
+        player.GetComponent<PlayerGravityController>().StartGravity();
     }
 }

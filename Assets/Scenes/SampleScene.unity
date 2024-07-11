@@ -344,7 +344,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23.07, y: -25.87, z: -10}
+  m_LocalPosition: {x: -0.15, y: -25.87, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -849,10 +849,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lerpTime: 0.2
-  bashForce: 0
-  timeToBash: 0
-  postBashGravityScale: 0
-  postBashControlTime: 0
+  bashForce: 5
+  timeToBash: 2
+  postBashGravityScale: 1
+  postBashControlTime: 3
 --- !u!58 &1600977158
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1011,97 +1011,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 459713785924843072, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 459713785924843072, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 5078397907136770499, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+    - target: {fileID: 4681144977129120330, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+      propertyPath: throwingCamera
+      value: 
+      objectReference: {fileID: 1987155561605300940}
+    - target: {fileID: 5033450681062683322, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: topBound
       value: 
       objectReference: {fileID: 1719975031}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+    - target: {fileID: 5033450681062683322, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: leftBound
       value: 
       objectReference: {fileID: 626984142}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+    - target: {fileID: 5033450681062683322, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: rightBound
       value: 
       objectReference: {fileID: 323664407}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+    - target: {fileID: 5033450681062683322, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: bottomBound
       value: 
       objectReference: {fileID: 2051640380}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: slidingSpeed
-      value: 0.2
+      propertyPath: maximumVelocityY
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: throwingCamera
-      value: 
-      objectReference: {fileID: 1987155561605300940}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: halfwayDuration
-      value: 0.2
+      propertyPath: minimumVelocityY
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: bufferMultiplyer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: wallJumpVelocityX
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: bufferJumpDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: slidingDeceleration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: slidingGravityFactor
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: wallJumpGravityScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: wallSlideGravityScale
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: wallJumpForceMultiplier
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: wallJumpForceMultiplierY
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: wallJumpingGravityFactor
-      value: -4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: slidingAndWallJumpingGravityScale
-      value: 15
+      propertyPath: maximumJumpVelocity
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.54
+      value: 5.77
       objectReference: {fileID: 0}
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -28.68
+      value: -28.27
       objectReference: {fileID: 0}
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1140,26 +1088,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
-      value: 1be5eac4-6cb8-474a-abe5-56532ac276a7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
-      value: WASD/Dash[/Keyboard/leftShift]
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1987155561605300940}
@@ -1171,22 +1099,6 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1600977157}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDashInput
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DashingObject, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944719626286424856, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
