@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 4681144977129120330}
   - component: {fileID: 8592272592679602428}
   - component: {fileID: 5033450681062683322}
+  - component: {fileID: 6799680811962738032}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -641,6 +642,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6799680811962738032}
+        m_TargetAssemblyTypeName: PlayerDashingController, Assembly-CSharp
+        m_MethodName: OnDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 1be5eac4-6cb8-474a-abe5-56532ac276a7
     m_ActionName: WASD/Dash[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
@@ -660,7 +673,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f3a5420ef641c4bb3e9f8d53a5aecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumJumpVelocity: 0
+  maximumVelocity: {x: 20, y: 40}
+  minimumVelocity: {x: 0, y: -30}
 --- !u!114 &845095576074997231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,3 +775,16 @@ MonoBehaviour:
   distanceFromVerticalBounds: 1
   sizeOfOverlapCollider: {x: 0.25, y: 0.25}
   angleOfOverlapCollider: 0
+--- !u!114 &6799680811962738032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924640510005295637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5048d5623ea676c40a19da6f81ce487a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashForce: 20

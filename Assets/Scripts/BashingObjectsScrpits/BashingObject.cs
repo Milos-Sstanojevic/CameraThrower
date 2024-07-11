@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Burst.Intrinsics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -57,6 +58,7 @@ public class BashingObject : MonoBehaviour
     {
         player.GetComponent<PlayerMovementController>().EnableMovement();
 
+        player.GetComponent<PlayerDashingController>().ForbidDashingWhileBashing();
 
         playerRb.gravityScale = postBashGravityScale;
         float elapsedTime = 0;
@@ -70,6 +72,7 @@ public class BashingObject : MonoBehaviour
         }
 
         player.transform.position = targetPosition;
+        player.GetComponent<PlayerDashingController>().AllowDashAfterBashing();
 
         yield return new WaitForSeconds(postBashControlTime);
 
@@ -110,7 +113,7 @@ public class BashingObject : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(timeToBash);
         ResetBashState();
-        if (bashPressed)            //??????????????????
+        if (bashPressed)
             yield return null;
 
         Time.timeScale = Constants.StartTime;

@@ -1108,16 +1108,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2051640380}
     - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: maximumVelocityY
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: minimumVelocityY
-      value: -30
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125700826168872108, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
-      propertyPath: maximumJumpVelocity
-      value: 30
+      propertyPath: minimumVelocity.x
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1158,6 +1150,26 @@ PrefabInstance:
     - target: {fileID: 5940779173653807148, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799680811962738032, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+      propertyPath: lerpTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799680811962738032, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+      propertyPath: dashForce
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799680811962738032, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799680811962738032, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+      propertyPath: dashDuration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6799680811962738032, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
+      propertyPath: dashingColldown
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8924640510005295637, guid: 17ee53366fd7e664d8574951a029876c, type: 3}
       propertyPath: m_Name

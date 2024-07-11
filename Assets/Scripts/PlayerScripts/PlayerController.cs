@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float maximumVelocityY;
-    [SerializeField] private float minimumVelocityY;
+    [SerializeField] private Vector2 maximumVelocity;
+    [SerializeField] private Vector2 minimumVelocity;
+
     private bool isFacingRight = true;
     private Rigidbody2D playerRb;
-
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerRb.velocity = new Vector2(playerRb.velocity.x, Mathf.Clamp(playerRb.velocity.y, minimumVelocityY, maximumVelocityY));
+        playerRb.velocity = new Vector2(Mathf.Clamp(playerRb.velocity.x, minimumVelocity.x, maximumVelocity.x), Mathf.Clamp(playerRb.velocity.y, minimumVelocity.y, maximumVelocity.y));
     }
 
     private void FlipPlayer()
