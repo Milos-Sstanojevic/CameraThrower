@@ -28,6 +28,8 @@
 
 .vscode/
 
+.plastic/
+
 # Gradle cache directory
 .gradle/
 
