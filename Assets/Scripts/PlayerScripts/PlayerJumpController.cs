@@ -34,6 +34,13 @@ public class PlayerJumpController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody2D>();
         playerMovementController = GetComponent<PlayerMovementController>();
+
+        EventManager.Instance.SubscribeToOnBasing(StopCoroutines);
+    }
+
+    private void StopCoroutines()
+    {
+        StopCoroutine(WallJumpCoroutine());
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -133,4 +140,9 @@ public class PlayerJumpController : MonoBehaviour
     public void EnableJumping() => jumpingDisabled = false;
     public float GetJumpInput() => jumpInput;
     public bool IsPlayerWallJumping() => isWallJumping;
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeFromOnBashing(StopCoroutines);
+    }
 }

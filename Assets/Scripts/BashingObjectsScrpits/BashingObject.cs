@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,29 +16,39 @@ public class BashingObject : MonoBehaviour
     private bool bashPressed;
     private bool canBash;
 
+    private void Awake()
+    {
+        EventManager.Instance.SubscribeToOnBasing(StopCoroutines);
+    }
+
+    private void StopCoroutines()
+    {
+        StopCoroutine(BashCoroutine(Vector2.zero));
+        StopCoroutine(BashWindowCoroutine());
+    }
+
     public void OnDashInput(InputAction.CallbackContext context)
     {
         if (context.started && canBash)
         {
             bashPressed = true;
-            Dash();
+            Bash();
         }
     }
 
-    private void Dash()
+    private void Bash()
     {
-        Vector2 bashTarget = Vector2.zero;
-
-        StopCoroutine(BashCoroutine(bashTarget));
-        StopCoroutine(BashWindowCoroutine());
+        // StopAllCoroutines();
+        EventManager.Instance.OnBashing();
 
         Time.timeScale = Constants.StartTime;
         player.transform.position = transform.position;
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 bashDirection = (mousePosition - (Vector2)player.transform.position).normalized;
-        bashTarget = (Vector2)player.transform.position + bashDirection * bashForce;
+        Vector2 bashTarget = (Vector2)player.transform.position + bashDirection * bashForce;
 
+        playerRb.velocity = Vector2.zero;
         StartCoroutine(BashCoroutine(bashTarget));
         ResetBashState();
     }
@@ -45,7 +56,7 @@ public class BashingObject : MonoBehaviour
     private IEnumerator BashCoroutine(Vector2 targetPosition)
     {
         player.GetComponent<PlayerMovementController>().EnableMovement();
-        player.GetComponent<PlayerJumpController>().EnableJumping();
+
 
         playerRb.gravityScale = postBashGravityScale;
         float elapsedTime = 0;
@@ -62,6 +73,7 @@ public class BashingObject : MonoBehaviour
 
         yield return new WaitForSeconds(postBashControlTime);
 
+        player.GetComponent<PlayerJumpController>().EnableJumping();
         player.GetComponent<PlayerGravityController>().StartGravity();
     }
 
@@ -110,5 +122,10 @@ public class BashingObject : MonoBehaviour
         player.GetComponent<PlayerMovementController>().EnableMovement();
         player.GetComponent<PlayerJumpController>().EnableJumping();
         player.GetComponent<PlayerGravityController>().StartGravity();
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnsubscribeFromOnBashing(StopCoroutines);
     }
 }
