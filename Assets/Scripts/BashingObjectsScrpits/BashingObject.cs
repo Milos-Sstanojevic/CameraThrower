@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,8 @@ public class BashingObject : MonoBehaviour
     [SerializeField] private float timeToBash;
     [SerializeField] private float postBashGravityScale;
     [SerializeField] private float postBashControlTime;
+    [SerializeField] private LayerMask wallLayerMask;
+    [SerializeField] private LayerMask groundLayerMask;
 
     private PlayerController player;
     private Rigidbody2D playerRb;
@@ -39,7 +42,6 @@ public class BashingObject : MonoBehaviour
 
     private void Bash()
     {
-        // StopAllCoroutines();
         EventManager.Instance.OnBashing();
 
         Time.timeScale = Constants.StartTime;
@@ -50,6 +52,16 @@ public class BashingObject : MonoBehaviour
         Vector2 bashTarget = (Vector2)player.transform.position + bashDirection * bashForce;
 
         playerRb.velocity = Vector2.zero;
+
+        RaycastHit2D hitWall = Physics2D.Raycast(player.transform.position, bashDirection, bashForce, wallLayerMask);
+        RaycastHit2D hitGround = Physics2D.Raycast(player.transform.position, bashDirection, bashForce, groundLayerMask);
+
+        if (hitWall.collider != null)
+            bashTarget = hitWall.point;
+
+        if (hitGround.collider != null)
+            bashTarget = hitGround.point;
+
         StartCoroutine(BashCoroutine(bashTarget));
         ResetBashState();
     }

@@ -960,6 +960,12 @@ MonoBehaviour:
   timeToBash: 2
   postBashGravityScale: 2
   postBashControlTime: 0.2
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!58 &1600977158
 CircleCollider2D:
   m_ObjectHideFlags: 0
